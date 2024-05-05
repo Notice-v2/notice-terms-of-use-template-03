@@ -30,6 +30,7 @@ export function HintBlock({ block }: Props) {
 			gap={'8px'}
 			py="16px"
 			w={'100%'}
+			my={2}
 			align="baseline"
 			bgColor="#E1E6EA"
 			borderLeft="4px solid"

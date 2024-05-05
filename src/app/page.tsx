@@ -1,4 +1,5 @@
 import { HomeComponents } from '@/components/HomeComponents'
+import { NotFound } from '@/components/NotFound'
 import { API, extractProjectID } from '@/tools/api'
 import { Metadata } from 'next'
 import { headers } from 'next/headers'
@@ -86,6 +87,8 @@ export async function generateMetadata({ searchParams }: { searchParams?: Record
 
 export default async function Home({ searchParams }: { searchParams?: Record<string, any> }) {
 	const data = await getData(searchParams)
+
+	if (!data) return <NotFound />
 
 	return <HomeComponents data={data} />
 }

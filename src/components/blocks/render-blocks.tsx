@@ -8,6 +8,7 @@ import { ListItemBlock } from './ListItem.block'
 import { NumberedListBlock } from './NumberedList.block'
 import { ParagraphBlock } from './Paragraph.block'
 import { QuoteBlock } from './Quote.block'
+
 export function renderBlock(block: any) {
 	switch (block.type) {
 		case 'paragraph':
@@ -45,4 +46,12 @@ export function renderBlock(block: any) {
 		// missing
 		// video, audio, document (and javascript but we will not implment it)
 	}
+}
+
+interface Props {
+	blocks: any[]
+}
+
+export function PageContent({ blocks }: Props) {
+	return blocks.map((block) => renderBlock(block))
 }

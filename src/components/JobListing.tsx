@@ -1,24 +1,20 @@
 'use client'
 
 import { useSelectedTag } from '@/providers/selectedTagProvider'
-import { Box, Divider, Flex, Heading, SimpleGrid } from '@chakra-ui/react'
+import { Box, Flex, Heading } from '@chakra-ui/react'
 import { motion, useInView } from 'framer-motion'
 import { useMemo, useRef } from 'react'
-import { ArticleCard } from './ArticleCard'
-import { TagsGroup } from './TagsGroup'
+import { JobCard } from './JobCard'
 
 interface Props {
 	pages: any[]
 	accentColor?: string
 }
 
-export const ArticlesGrid = ({ pages, accentColor }: Props) => {
+export const JobListing = ({ pages, accentColor }: Props) => {
 	const { selectedTag } = useSelectedTag()
-
 	const ref = useRef(null)
 	const isInView = useInView(ref)
-
-	const tags: any = useMemo(() => pages.reduce((acc, page) => [...acc, ...(page?.tags ?? [])], []), [pages])
 
 	const filteredArticles = useMemo(
 		() =>
@@ -52,46 +48,36 @@ export const ArticlesGrid = ({ pages, accentColor }: Props) => {
 			p="24px"
 			w="100%"
 			h="fit-content"
-			maxW="1260px"
+			maxW="960px"
 			layout
 			layoutRoot
 		>
-			<Flex
-				mb={2}
-				gap={{ base: '6px', md: '24px' }}
-				direction={{ base: 'column', md: 'row' }}
-				justify="space-between"
-				align="center"
+			<Heading
+				id="all-posts"
+				flexShrink={0}
+				fontWeight="bold"
+				as="h1"
+				fontSize={{ base: 'xl', lg: '2xl' }}
+				color="blackAlpha.800"
 			>
-				<Heading
-					id="all-posts"
-					flexShrink={0}
-					fontWeight="bold"
-					as="h1"
-					fontSize={{ base: '2xl', lg: '4xl' }}
-					color="blackAlpha.800"
-				>
-					All posts
-				</Heading>
-				<TagsGroup tags={tags} activeTag={selectedTag} accentColor={accentColor} />
-			</Flex>
-			<Divider mb={12} orientation="horizontal" color="gray.400" />
-			<SimpleGrid
+				{selectedTag === 'All' ? 'Latest' : selectedTag?.charAt(0).toUpperCase() + selectedTag?.slice(1)} Jobs
+			</Heading>
+			<Flex
+				direction="column"
 				ref={ref}
 				as={motion.div}
 				variants={container}
 				initial={isInView ? 'show' : 'hidden'}
 				whileInView="show"
 				viewport={{ once: true }}
-				gridAutoRows="1fr"
-				columns={{ base: 1, sm: 2, md: 3 }}
-				gap="46px"
+				gap="24px"
 				justifyContent="stretch"
+				w="100%"
 			>
 				{filteredArticles.map((page) => (
-					<ArticleCard key={page.id} page={page} accentColor={accentColor} />
+					<JobCard key={page.id} page={page} accentColor={accentColor} />
 				))}
-			</SimpleGrid>
+			</Flex>
 		</Box>
 	)
 }
