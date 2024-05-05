@@ -1,95 +1,110 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { ArticlesGrid } from '@/components/ArticlesGrid'
+import { BlogHero } from '@/components/BlogHero'
+import { Navbar } from '@/components/Navbar'
+import { RecentArticles } from '@/components/RecentArticles'
+import { API, extractProjectID } from '@/tools/api'
+import { Box } from '@chakra-ui/react'
+import { Metadata } from 'next'
+import { headers } from 'next/headers'
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+async function getData(searchParams?: Record<string, any>) {
+	const projectId = extractProjectID(headers(), searchParams)
+	if (!projectId) return null
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+	try {
+		const { data } = await API.get(`/projects/${projectId}`)
+		return data
+	} catch (_) {
+		return null
+	}
+}
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+export async function generateMetadata({ searchParams }: { searchParams?: Record<string, any> }): Promise<Metadata> {
+	// read route params
+	const id = extractProjectID(headers(), searchParams)
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+	// fetch data
+	const { data } = await API.get(`/projects/${id}`)
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+	const metadata = {
+		title: '',
+		description: '',
+		icon: '',
+		ogTitle: '',
+		ogDescription: '',
+		ogImage: '',
+		twitterTitle: '',
+		twitterDescription: '',
+		twitterImage: '',
+	}
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+	for (const item of data?.metadata) {
+		const { tagName, innerText, attributes } = item
+
+		if (tagName === 'title') {
+			metadata.title = innerText
+			metadata.ogTitle = innerText
+			metadata.twitterTitle = innerText
+		} else if (tagName === 'link') {
+			const { rel, href } = attributes
+			metadata.icon = href
+		} else if (tagName === 'meta') {
+			const { name, property, content } = attributes
+
+			if (name === 'description') {
+				metadata.description = content
+				metadata.ogDescription = content
+				metadata.twitterDescription = content
+			} else if (property === 'og:image') {
+				metadata.ogImage = content
+			} else if (name === 'twitter:image') {
+				metadata.twitterImage = content
+			}
+		}
+	}
+
+	return {
+		title: metadata.title || 'Template Created with Notice',
+		description: metadata.description || 'Notice is an no code editor to craft your content.',
+		icons: {
+			icon: metadata.icon,
+			shortcut: metadata.icon,
+			apple: metadata.icon,
+			other: {
+				rel: 'apple-touch-icon',
+				url: metadata.icon,
+			},
+		},
+		openGraph: {
+			title: metadata.ogTitle,
+			description: metadata.ogDescription,
+			images: metadata.ogImage ? [{ url: metadata.ogImage }] : [],
+		},
+		twitter: {
+			title: metadata.twitterTitle,
+			description: metadata.twitterDescription,
+			images: metadata.twitterImage ? [{ url: metadata.twitterImage }] : [],
+		},
+	}
+}
+
+export default async function Home({ searchParams }: { searchParams?: Record<string, any> }) {
+	const data = await getData(searchParams)
+
+	return (
+		<Box>
+			<Navbar meta={data?.metadata ?? []} />
+			<Box mt={{ base: '40px', lg: '80px' }} as="section">
+				<BlogHero page={data?.pages?.[0]} accentColor={data?.project?.accentColor} />
+			</Box>
+			{data?.pages.length > 3 && (
+				<Box mt={{ base: '60px', lg: '80px' }} as="section">
+					<RecentArticles pages={data?.pages.slice(1, 6)} />
+				</Box>
+			)}
+			<Box mt={{ base: '40px', lg: data?.pages?.length > 3 ? '80px' : '70px' }} as="section">
+				<ArticlesGrid accentColor={data?.project?.accentColor} pages={data?.pages} />
+			</Box>
+		</Box>
+	)
 }
