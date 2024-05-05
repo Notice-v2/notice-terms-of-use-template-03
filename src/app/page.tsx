@@ -5,14 +5,26 @@ import { Metadata } from 'next'
 import { headers } from 'next/headers'
 
 async function getData(searchParams?: Record<string, any>) {
-	const projectId = extractProjectID(headers(), searchParams)
-	if (!projectId) return null
-
 	try {
-		const { data } = await API.get(`/projects/${projectId}`)
-		return data
-	} catch (_) {
-		return null
+		const projectId = extractProjectID(headers(), searchParams)
+		if (!projectId) {
+			throw new Error('Project ID not found')
+		}
+
+		const { data: projectData } = await API.get(`/projects/${projectId}`)
+		const { pages } = projectData
+
+		if (!pages || !pages.length || !pages[0]?._id) {
+			throw new Error('Page ID not found')
+		}
+
+		const pageId = pages[0]?._id
+
+		const { data: pageData } = await API.get(`/pages/${pageId}`)
+		return { project: projectData, page: pageData }
+	} catch (error) {
+		console.error('Error fetching data:', error)
+		throw error
 	}
 }
 
