@@ -1,10 +1,10 @@
 'use client'
 
+import { useIsHovered } from '@/hooks/useIsHovered'
 import { Box, IconButton, useClipboard } from '@chakra-ui/react'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.min.css'
 import { useEffect, useRef } from 'react'
-import { useIsHovered } from '../../hooks'
 import { ClipboardCheck, CopyIcon } from '../../icons'
 
 interface Props {
