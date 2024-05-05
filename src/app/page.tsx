@@ -1,9 +1,5 @@
-import { ArticlesGrid } from '@/components/ArticlesGrid'
-import { BlogHero } from '@/components/BlogHero'
-import { Navbar } from '@/components/Navbar'
-import { RecentArticles } from '@/components/RecentArticles'
+import { HomeComponents } from '@/components/HomeComponents'
 import { API, extractProjectID } from '@/tools/api'
-import { Box } from '@chakra-ui/react'
 import { Metadata } from 'next'
 import { headers } from 'next/headers'
 
@@ -91,20 +87,5 @@ export async function generateMetadata({ searchParams }: { searchParams?: Record
 export default async function Home({ searchParams }: { searchParams?: Record<string, any> }) {
 	const data = await getData(searchParams)
 
-	return (
-		<Box>
-			<Navbar meta={data?.metadata ?? []} />
-			<Box mt={{ base: '40px', lg: '80px' }} as="section">
-				<BlogHero page={data?.pages?.[0]} accentColor={data?.project?.accentColor} />
-			</Box>
-			{data?.pages.length > 3 && (
-				<Box mt={{ base: '60px', lg: '80px' }} as="section">
-					<RecentArticles pages={data?.pages.slice(1, 6)} />
-				</Box>
-			)}
-			<Box mt={{ base: '40px', lg: data?.pages?.length > 3 ? '80px' : '70px' }} as="section">
-				<ArticlesGrid accentColor={data?.project?.accentColor} pages={data?.pages} />
-			</Box>
-		</Box>
-	)
+	return <HomeComponents data={data} />
 }

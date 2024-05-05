@@ -1,5 +1,5 @@
-import { BlockPage } from '@/components/BlockPage'
 import { NotFound } from '@/components/NotFound'
+import { SubPageComponents } from '@/components/SubPageComponents'
 import { API } from '@/tools/api'
 import { Metadata } from 'next'
 
@@ -83,5 +83,5 @@ export default async function Subpage({ params }: { params: { slug: string } }) 
 
 	if (!data) return <NotFound />
 
-	return <BlockPage data={data} />
+	return <SubPageComponents data={data} />
 }

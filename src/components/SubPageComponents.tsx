@@ -14,7 +14,7 @@ interface Props {
 	data: any
 }
 
-export const BlockPage = ({ data }: Props) => {
+export const SubPageComponents = ({ data }: Props) => {
 	const formattedDate = useMemo(() => dayjs(data?.createdAt).format('MMM D, YYYY'), [data?.createdAt])
 
 	const [isBigScreen] = useMediaQuery('(min-width: 1350px)', {
