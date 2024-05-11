@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const HomeComponents = ({ data }: Props) => {
-	console.log('data', data)
 	return (
 		<Box>
 			<Box as="section">
