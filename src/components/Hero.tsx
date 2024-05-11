@@ -51,7 +51,7 @@ export const Hero = ({ project }: Props) => {
 	)
 }
 
-interface Props {
+interface CubeProps {
 	delay: string
 	left?: string
 	top?: string
@@ -68,7 +68,7 @@ const cubAnimation = keyframes`
   }
 `
 
-const Cube = ({ delay, left = '45vw', top = '80vh' }: Props) => {
+const Cube = ({ delay, left = '45vw', top = '80vh' }: CubeProps) => {
 	return (
 		<Box
 			position="absolute"
