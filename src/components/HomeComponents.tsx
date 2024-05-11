@@ -9,12 +9,13 @@ interface Props {
 }
 
 export const HomeComponents = ({ data }: Props) => {
+	console.log('data', data)
 	return (
 		<Box>
 			<Box as="section">
-				<Hero />
+				<Hero project={data?.project?.project} />
 			</Box>
-			<Flex justify="center" align="center" my="52px" w="100%" as="section">
+			<Flex position="relative" justify="center" align="center" my="52px" w="100%" as="section">
 				<BlockComponents data={data?.page} />
 			</Flex>
 		</Box>

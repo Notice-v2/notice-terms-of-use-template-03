@@ -3,14 +3,12 @@
 import { Box, Flex, Heading, Text } from '@chakra-ui/react'
 
 interface Props {
-	pages: any[]
 	project?: any
-	accentColor?: string
 }
 
-export const Hero = () => {
+export const Hero = ({ project }: Props) => {
 	return (
-		<Box bg="#661FFF" position="relative">
+		<Box bg={project?.heroBackgroundColor ?? '#661FFF'} position="relative">
 			<Box position="absolute" bottom={0} left={0} right={0}>
 				<svg viewBox="0 0 224 12" fill="black" width="100%" preserveAspectRatio="none" style={{ marginBottom: '-1px' }}>
 					<path
@@ -36,11 +34,10 @@ export const Hero = () => {
 						lineHeight="shorter"
 						mb={6}
 					>
-						This is a Terms of service for your Notice website
+						{project?.subtitle}
 					</Heading>
 					<Text color="gray.200" mb={6} fontSize={{ base: 'base', md: 'lg' }}>
-						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-						aperiam, eaque ipsa quae. explicabo. Sed ut perspiciatis unde omnis.
+						{project?.description}
 					</Text>
 				</Box>
 			</Flex>

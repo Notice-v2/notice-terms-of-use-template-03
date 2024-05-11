@@ -4,7 +4,7 @@ import { Flex, Heading, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export function NotFound() {
+export default function Custom404() {
 	const router = useRouter()
 
 	useEffect(() => {
