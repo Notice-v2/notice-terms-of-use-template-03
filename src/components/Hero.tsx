@@ -1,6 +1,7 @@
 'use client'
 
-import { Box } from '@chakra-ui/react'
+import { Box, Flex, Heading, keyframes, Text } from '@chakra-ui/react'
+import { lightenDarkenColor } from '../utils/theme'
 
 interface Props {
 	project?: any
@@ -8,46 +9,79 @@ interface Props {
 
 export const Hero = ({ project }: Props) => {
 	return (
-		<Box
+		<Flex
+			bg="#0040C1"
+			h={{ sm: '50vh', md: '60vh', lg: '80vh' }}
+			justifyContent="center"
+			alignItems="center"
 			position="relative"
 			overflow="hidden"
-			py={20}
-			as="div"
-			_before={{
-				content: "''",
-				position: 'absolute',
-				top: 0,
-				height: '100%',
-				left: '50%',
-				bg: "url('/bg.svg')",
-				bgRepeat: 'no-repeat',
-				bgPosition: 'top',
-				bgSize: 'full',
-				zIndex: -1,
-				transform: 'translateX(-50%)',
-				width: '100%',
-			}}
-			h="100%"
 		>
-			<Box>
-				<Box maxW="85rem" mx="auto" px={{ base: 4, sm: 6, lg: 8 }} pt={8} pb={10}>
-					<Box maxW="3xl" mx="auto" textAlign="center">
-						<Box
-							as="h1"
-							fontWeight="bold"
-							color={project?.accentColor ?? 'gray.800'}
-							fontSize={{ base: '4xl', md: '5xl', lg: '6xl' }}
-						>
-							{project?.subtitle}
-						</Box>
-					</Box>
-					<Box maxW="3xl" mx="auto" textAlign="center" mt={5}>
-						<Box as="p" fontSize="lg" color="gray.600">
-							{project?.description}
-						</Box>
-					</Box>
+			<Flex
+				px={4}
+				py={{ base: 24, md: 40 }}
+				mx="auto"
+				maxW={{ sm: 'xl', md: 'full', lg: 'screen-xl' }}
+				justifyContent="center"
+				alignItems="center"
+				flexDirection="column"
+			>
+				<Box maxW={{ sm: 'xl', md: '3xl' }} textAlign={{ base: 'center', sm: 'center' }}>
+					<Heading
+						color="white"
+						fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
+						fontWeight="bold"
+						lineHeight="shorter"
+						mb={6}
+					>
+						{project?.subtitle}
+					</Heading>
+					<Text color="gray.200" mb={6} fontSize={{ base: 'base', md: 'lg' }}>
+						{project?.description}
+					</Text>
 				</Box>
-			</Box>
-		</Box>
+			</Flex>
+			<Cube delay="0s" />
+			<Cube delay="2s" left="25vw" top="40vh" />
+			<Cube delay="4s" left="75vw" top="50vh" />
+			<Cube delay="6s" left="90vw" top="10vh" />
+			<Cube delay="8s" left="10vw" top="85vh" />
+			<Cube delay="10s" left="50vw" top="10vh" />
+		</Flex>
+	)
+}
+
+interface Props {
+	delay: string
+	left?: string
+	top?: string
+}
+
+const cubAnimation = keyframes`
+ from {
+    transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    opacity: 1;
+  }
+  to {
+    transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    opacity: 0;
+  }
+`
+
+const Cube = ({ delay, left = '45vw', top = '80vh' }: Props) => {
+	return (
+		<Box
+			position="absolute"
+			top={top}
+			left={left}
+			w={{ base: '5px', md: '10px' }}
+			h={{ base: '5px', md: '10px' }}
+			borderWidth="1px"
+			borderStyle="solid"
+			borderColor={delay === '2s' ? `${lightenDarkenColor('#0040C1', 35)}` : `${lightenDarkenColor('#0040C1', -35)}`}
+			transformOrigin="top left"
+			transform="scale(0) rotate(0deg) translate(-50%, -50%)"
+			animation={`${cubAnimation} 12s ease-in ${delay} forwards infinite`}
+		/>
 	)
 }
