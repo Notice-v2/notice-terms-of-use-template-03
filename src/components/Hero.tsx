@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Flex, Heading, Text } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 
 interface Props {
 	project?: any
@@ -8,39 +8,46 @@ interface Props {
 
 export const Hero = ({ project }: Props) => {
 	return (
-		<Box bg={project?.heroBackgroundColor ?? '#661FFF'} position="relative">
-			<Box position="absolute" bottom={0} left={0} right={0}>
-				<svg viewBox="0 0 224 12" fill="black" width="100%" preserveAspectRatio="none" style={{ marginBottom: '-1px' }}>
-					<path
-						fill="white"
-						d="M0,0 C48.8902582,6.27314026 86.2235915,9.40971039 112,9.40971039 C137.776408,9.40971039 175.109742,6.27314026 224,0 L224,12.0441132 L0,12.0441132 L0,0 Z"
-					/>
-				</svg>
-			</Box>
-			<Flex
-				px={4}
-				py={{ base: 24, md: 40 }}
-				mx="auto"
-				maxW={{ sm: 'xl', md: 'full', lg: 'screen-xl' }}
-				justifyContent="center"
-				alignItems="center"
-				flexDirection="column"
-			>
-				<Box maxW={{ sm: 'xl', md: '3xl' }} textAlign={{ base: 'left', sm: 'center' }}>
-					<Heading
-						color="white"
-						fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
-						fontWeight="bold"
-						lineHeight="shorter"
-						mb={6}
-					>
-						{project?.subtitle}
-					</Heading>
-					<Text color="gray.200" mb={6} fontSize={{ base: 'base', md: 'lg' }}>
-						{project?.description}
-					</Text>
+		<Box
+			position="relative"
+			overflow="hidden"
+			py={20}
+			as="div"
+			_before={{
+				content: "''",
+				position: 'absolute',
+				top: 0,
+				height: '100%',
+				left: '50%',
+				bg: "url('/bg.svg')",
+				bgRepeat: 'no-repeat',
+				bgPosition: 'top',
+				bgSize: 'full',
+				zIndex: -1,
+				transform: 'translateX(-50%)',
+				width: '100%',
+			}}
+			h="100%"
+		>
+			<Box>
+				<Box maxW="85rem" mx="auto" px={{ base: 4, sm: 6, lg: 8 }} pt={8} pb={10}>
+					<Box maxW="3xl" mx="auto" textAlign="center">
+						<Box
+							as="h1"
+							fontWeight="bold"
+							color={project?.accentColor ?? 'gray.800'}
+							fontSize={{ base: '4xl', md: '5xl', lg: '6xl' }}
+						>
+							{project?.subtitle}
+						</Box>
+					</Box>
+					<Box maxW="3xl" mx="auto" textAlign="center" mt={5}>
+						<Box as="p" fontSize="lg" color="gray.600">
+							{project?.description}
+						</Box>
+					</Box>
 				</Box>
-			</Flex>
+			</Box>
 		</Box>
 	)
 }

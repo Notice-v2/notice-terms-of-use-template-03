@@ -15,7 +15,16 @@ export const HomeComponents = ({ data }: Props) => {
 			<Box as="section">
 				<Hero project={data?.project?.project} />
 			</Box>
-			<Flex position="relative" justify="center" align="center" my="52px" w="100%" as="section">
+			<Flex
+				bgColor="gray.100"
+				position="relative"
+				justify="center"
+				align="center"
+				py="8px"
+				my="52px"
+				w="100%"
+				as="section"
+			>
 				<BlockComponents data={data?.page} />
 			</Flex>
 		</Box>

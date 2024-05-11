@@ -12,6 +12,13 @@ export function createTheme() {
 			heading: `-apple-system, BlinkMacSystemFont, sans-serif`,
 			body: `-apple-system, BlinkMacSystemFont, sans-serif`,
 		},
+		styles: {
+			global: () => ({
+				body: {
+					bg: '#EDF2F6',
+				},
+			}),
+		},
 		components: {
 			Code: codeTheme,
 		},
