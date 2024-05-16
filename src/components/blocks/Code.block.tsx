@@ -19,6 +19,37 @@ export function CodeBlock({ block }: Props) {
 	const code = content[0]
 
 	useEffect(() => {
+		hljs.configure({
+			languages: [
+				'js',
+				'ts',
+				'jsx',
+				'tsx',
+				'css',
+				'scss',
+				'html',
+				'shell',
+				'java',
+				'C++',
+				'C#',
+				'Python',
+				'Ruby',
+				'Go',
+				'Swift',
+				'Kotlin',
+				'Rust',
+				'Dart',
+				'PHP',
+				'Perl',
+				'R',
+				'JSON',
+				'Bash',
+				'GraphQL',
+				'PowerShell',
+				'Sass',
+				'SQL',
+			],
+		})
 		hljs.highlightAll()
 	}, [])
 
