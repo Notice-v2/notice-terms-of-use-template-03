@@ -2,6 +2,7 @@
 
 import { Box, Flex } from '@chakra-ui/react'
 import { BlockComponents } from './BlockComponents'
+import { CreatedWithNotice } from './CreatedWithNotice'
 import { Hero } from './Hero'
 
 interface Props {
@@ -12,7 +13,7 @@ export const HomeComponents = ({ data }: Props) => {
 	return (
 		<Box>
 			<Box as="section">
-				<Hero project={data?.project?.project} />
+				<Hero project={data?.project} />
 			</Box>
 			<Flex
 				bgColor="gray.100"
@@ -26,6 +27,7 @@ export const HomeComponents = ({ data }: Props) => {
 			>
 				<BlockComponents data={data?.page} />
 			</Flex>
+			<CreatedWithNotice shouldHide={data?.project?.hideCreatedWithNotice} />
 		</Box>
 	)
 }

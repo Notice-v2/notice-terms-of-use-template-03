@@ -81,7 +81,7 @@ const Cube = ({ delay, left = '45vw', top = '80vh' }: CubeProps) => {
 			borderColor={delay === '2s' ? `${lightenDarkenColor('#0040C1', 35)}` : `${lightenDarkenColor('#0040C1', -35)}`}
 			transformOrigin="top left"
 			transform="scale(0) rotate(0deg) translate(-50%, -50%)"
-			animation={`${cubAnimation} 12s ease-in ${delay} forwards infinite`}
+			animation={`${cubAnimation} 8s ease-in ${delay} forwards infinite`}
 		/>
 	)
 }

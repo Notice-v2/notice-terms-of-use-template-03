@@ -12,7 +12,7 @@ async function getData(searchParams?: Record<string, any>) {
 		}
 
 		const { data: projectData } = await API.get(`/projects/${projectId}`)
-		const { pages } = projectData
+		const { pages, project } = projectData
 
 		if (!pages || !pages.length || !pages[0]?._id) {
 			throw new Error('Page ID not found')
@@ -21,7 +21,7 @@ async function getData(searchParams?: Record<string, any>) {
 		const pageId = pages[0]?._id
 
 		const { data: pageData } = await API.get(`/pages/${pageId}`)
-		return { project: projectData, page: pageData }
+		return { project: { ...project }, page: pageData }
 	} catch (error) {
 		console.error('Error fetching data:', error)
 		throw error
