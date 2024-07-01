@@ -1,9 +1,10 @@
 'use client'
 
 import { Box, Flex } from '@chakra-ui/react'
+import '@notice-org/renderer-helper/dist/style.css'
 import { BlockComponents } from './BlockComponents'
-import { CreatedWithNotice } from './CreatedWithNotice'
 import { Hero } from './Hero'
+import { NoticeLabel } from './NoticeLabel'
 
 interface Props {
 	data: any
@@ -27,7 +28,7 @@ export const HomeComponents = ({ data }: Props) => {
 			>
 				<BlockComponents data={data?.page} />
 			</Flex>
-			<CreatedWithNotice shouldHide={data?.project?.hideCreatedWithNotice} />
+			<NoticeLabel shouldHide={data?.project?.hideCreatedWithNotice} />
 		</Box>
 	)
 }

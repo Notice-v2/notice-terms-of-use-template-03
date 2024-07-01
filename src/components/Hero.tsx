@@ -1,7 +1,7 @@
 'use client'
 
+import { lightenDarkenColor } from '@/utils/theme'
 import { Box, Flex, Heading, keyframes, Text } from '@chakra-ui/react'
-import { lightenDarkenColor } from '../utils/theme'
 
 interface Props {
 	project?: any

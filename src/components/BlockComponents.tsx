@@ -1,9 +1,9 @@
 'use client'
 
 import { Flex, Text } from '@chakra-ui/react'
+import { PageContent } from '@notice-org/renderer-helper'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
-import { PageContent } from './blocks/render-blocks'
 
 interface Props {
 	data: any
